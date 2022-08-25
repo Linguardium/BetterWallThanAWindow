@@ -5,10 +5,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.Keyboard;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
@@ -24,9 +23,9 @@ public class BetterWallThanAWindow implements ClientModInitializer {
 				"key.category.bwtaw" // The translation key of the keybinding's category.
 		));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			while (keyBinding.wasPressed()) {
+			while (client.player != null && keyBinding.wasPressed()) {
 				hidePlayers=!hidePlayers;
-					client.player.sendMessage(new LiteralText("Players are now "+ ((hidePlayers)?"Hidden":"Shown")),false);
+					client.player.sendMessage(Text.literal("Players are now "+ ((hidePlayers)?"Hidden":"Shown")),false);
 			}
 		});
 	}
